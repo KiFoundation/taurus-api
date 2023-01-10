@@ -1,9 +1,9 @@
+use crate::config::Wallet;
+use anyhow::bail;
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use serde_aux::prelude::*;
 use std::time::Duration;
-use anyhow::bail;
-use crate::config::Wallet;
 
 #[derive(Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct NodeInfo {
@@ -271,7 +271,6 @@ impl Taurus {
 
         Ok(addresses[pos.unwrap()].clone())
     }
-
 
     pub fn request(&self, params: RequestParams) -> Result<RequestResponse, anyhow::Error> {
         self.post(
