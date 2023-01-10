@@ -101,8 +101,8 @@ impl Config {
         }
     }
 
-    pub fn find_wallet(&self, name: String) -> Result<Wallet, anyhow::Error> {
-        let index = self.wallet.iter().position(|w| w.name == name);
+    pub fn find_wallet(&self, name: &String) -> Result<Wallet, anyhow::Error> {
+        let index = self.wallet.iter().position(|w| w.name == *name);
 
         if let Some(idx) = index {
             Ok(self.wallet[idx].clone())
@@ -111,8 +111,8 @@ impl Config {
         }
     }
 
-    pub fn find_chain(&self, chain_id: String) -> Result<Chain, anyhow::Error> {
-        let index = self.chain.iter().position(|c| c.chain_id == chain_id);
+    pub fn find_chain(&self, chain_id: &String) -> Result<Chain, anyhow::Error> {
+        let index = self.chain.iter().position(|c| c.chain_id == *chain_id);
 
         if let Some(idx) = index {
             Ok(self.chain[idx].clone())

@@ -19,7 +19,7 @@ mod test_config {
     pub fn find_wallet() -> Result<(), anyhow::Error> {
         let cfg = Config::load()?;
 
-        let wallet = cfg.find_wallet("toto".to_string());
+        let wallet = cfg.find_wallet(&"toto".to_string());
 
         assert!(wallet.is_ok());
         assert_eq!(
@@ -30,7 +30,7 @@ mod test_config {
             }
         );
 
-        let wallet = cfg.find_wallet("a".to_string());
+        let wallet = cfg.find_wallet(&"a".to_string());
         assert!(wallet.is_err());
 
         Ok(())
@@ -40,7 +40,7 @@ mod test_config {
     pub fn find_chain() -> Result<(), anyhow::Error> {
         let cfg = Config::load()?;
 
-        let chain = cfg.find_chain("kichain-t-4".to_string());
+        let chain = cfg.find_chain(&"kichain-t-4".to_string());
 
         assert!(chain.is_ok());
         assert_eq!(
@@ -54,7 +54,7 @@ mod test_config {
             }
         );
 
-        let chain = cfg.find_chain("a".to_string());
+        let chain = cfg.find_chain(&"a".to_string());
         assert!(chain.is_err());
 
         Ok(())
