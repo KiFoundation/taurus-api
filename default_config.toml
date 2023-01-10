@@ -1,0 +1,75 @@
+[taurus]
+api_url = "taurus.url"
+mail = "mail@mail.com"
+passwd = "password"
+
+[[wallet]]
+name = "a"
+address = "..."
+
+[[wallet]]
+name = "b"
+address = "..."
+
+[[chain]]
+prefix = "cosmos"
+denom = "uatom"
+lcd = "https://cosmos-lcd.quickapi.com"
+rpc = "https://rpc-cosmoshub.blockapsis.com"
+chain_id = "cosmoshub-4"
+
+[[chain]]
+prefix = "osmo"
+denom = "uosmo"
+lcd = "https://api-osmosis-ia.cosmosia.notional.ventures/"
+rpc = "https://rpc-osmosis-ia.cosmosia.notional.ventures/"
+chain_id = "osmosis-1"
+
+[[chain]]
+prefix = "juno"
+denom = "ujuno"
+lcd = "https://api-juno-ia.cosmosia.notional.ventures/"
+rpc = "https://rpc-juno-ia.cosmosia.notional.ventures/"
+chain_id = "juno-1"
+
+[[chain]]
+prefix = "kujira"
+denom = "ukuji"
+lcd = "https://lcd-kujira.whispernode.com"
+rpc = "https://rpc-kujira.whispernode.com"
+chain_id = "kaiyo-1"
+
+[[chain]]
+prefix = "secret"
+denom = "uscrt"
+lcd = "https://lcd-secret.keplr.app"
+rpc = "https://rpc-secret.keplr.app"
+chain_id = "secret-4"
+
+[[chain]]
+prefix = "agoric"
+denom = "ubld"
+lcd = "https://main.api.agoric.net:443"
+rpc = "https://main.rpc.agoric.net:443"
+chain_id = "agoric-3"
+
+[[chain]]
+prefix = "stars"
+denom = "ustars"
+lcd = "https://rest.stargaze-apis.com/"
+rpc = "https://rpc.stargaze-apis.com/"
+chain_id = "stargaze-1"
+
+[[chain]]
+prefix = "ki"
+denom = "uxki"
+lcd = "https://api-mainnet.blockchain.ki"
+rpc = "https://rpc-mainnet.blockchain.ki"
+chain_id = "kichain-2"
+
+[[chain]]
+prefix = "tki"
+denom = "utki"
+lcd = "https://api-challenge.blockchain.ki"
+rpc = "https://rpc-challenge.blockchain.ki"
+chain_id = "kichain-t-4"
