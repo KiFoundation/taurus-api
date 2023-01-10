@@ -2,6 +2,9 @@
 name = "taurus-api"
 version = "0.1.0"
 authors = ["Sylvestre Gallon <sylvestre@klub.ki>"]
+repository = "https://github.com/SylvestreG/synnax/"
+description = "Taurus helper for Cosmos-SDK"
+readme = "README.md"
 edition = "2021"
 
 [dependencies]

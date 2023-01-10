@@ -1,2 +1,2 @@
 # taurus-api
-Taurus Protect Cosmos Helper
+Taurus helper for Cosmos-SDK
