@@ -147,6 +147,26 @@ pub struct RequestParams {
 
 #[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
 #[serde(rename_all = "camelCase")]
+pub struct SignedRequests {
+    pub id: String,
+    pub signed_request: String,
+    pub status: String,
+    pub creation_date: String,
+    pub update_date: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct Trails {
+    pub user_id: String,
+    pub external_user_id: String,
+    pub action: String,
+    pub date: String,
+    pub request_status: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct RequestInfos {
     pub id: String,
     pub tenant_id: String,
@@ -155,6 +175,8 @@ pub struct RequestInfos {
     pub status: String,
     #[serde(rename(deserialize = "type"))]
     pub type_request: String,
+    pub signed_requests: Option<Vec<SignedRequests>>,
+    pub trails: Vec<Trails>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
@@ -277,5 +299,9 @@ impl Taurus {
             "/api/rest/v1/requests/outgoing/cosmos/generic_request",
             &params,
         )
+    }
+
+    pub fn request_by_id(&self, id: u64) -> Result<RequestResponse, anyhow::Error> {
+        self.get(format!("/api/rest/v1/requests/{}", id).as_str())
     }
 }
