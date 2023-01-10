@@ -4,13 +4,13 @@ mod test_config {
 
     #[test]
     pub fn load_config() -> Result<(), anyhow::Error> {
-        let cfg = Config::new("./default_config.toml")?;
+        let cfg = Config::load()?;
 
-        assert_eq!(cfg.wallet.len(), 2);
-        assert_eq!(cfg.chain.len(), 9);
+        assert_eq!(cfg.wallet.len(), 1);
+        assert_eq!(cfg.chain.len(), 2);
         assert_eq!(cfg.taurus.passwd, "password");
-        assert_eq!(cfg.taurus.mail, "mail@mail.com");
-        assert_eq!(cfg.taurus.api_url, "taurus.url");
+        assert_eq!(cfg.taurus.mail, "taurus@taurus.io");
+        assert_eq!(cfg.taurus.api_url, "taurus.io");
 
         Ok(())
     }

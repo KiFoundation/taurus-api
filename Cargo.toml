@@ -1,6 +1,6 @@
 [package]
 name = "taurus-api"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Sylvestre Gallon <sylvestre@klub.ki>"]
 repository = "https://github.com/SylvestreG/synnax/"
 description = "Taurus helper for Cosmos-SDK"
@@ -17,6 +17,5 @@ serde_json = "1.0.81"
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 serde-aux = "4.0.0"
 log = "0.4.17"
-env_logger = "0.10.0"
 base64 = "0.21.0"
 quick-protobuf = "0.8.1"
