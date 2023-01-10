@@ -2,6 +2,8 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use serde_aux::prelude::*;
 use std::time::Duration;
+use anyhow::bail;
+use crate::config::Wallet;
 
 #[derive(Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct NodeInfo {
@@ -252,6 +254,24 @@ impl Taurus {
     pub fn addresses(&self) -> Result<AddressesResponse, anyhow::Error> {
         self.get("/api/rest/v1/addresses")
     }
+
+    pub fn addresses_by_address(&self, wallet: Wallet) -> Result<Addresses, anyhow::Error> {
+        let addresses = self.addresses()?;
+
+        if addresses.result.is_none() {
+            bail!("no matching addresses");
+        }
+
+        let addresses = addresses.result.unwrap();
+        let pos = addresses.iter().position(|x| x.address == wallet.address);
+
+        if pos.is_none() {
+            bail!("no matching addresses");
+        }
+
+        Ok(addresses[pos.unwrap()].clone())
+    }
+
 
     pub fn request(&self, params: RequestParams) -> Result<RequestResponse, anyhow::Error> {
         self.post(
