@@ -1,9 +1,10 @@
+use anyhow::bail;
 use log::{debug, trace};
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
 
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq)]
 pub struct Chain {
     pub prefix: String,
     pub denom: String,
@@ -12,20 +13,20 @@ pub struct Chain {
     pub chain_id: String,
 }
 
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Taurus {
     pub api_url: String,
     pub mail: String,
     pub passwd: String,
 }
 
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq)]
 pub struct Wallet {
     pub name: String,
     pub address: String,
 }
 
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Config {
     pub taurus: Taurus,
     pub chain: Vec<Chain>,
@@ -97,6 +98,26 @@ impl Config {
             let cfg = Config::default()?;
             Self::save(&cfg, config_file)?;
             Ok(cfg)
+        }
+    }
+
+    pub fn find_wallet(&self, name: String) -> Result<Wallet, anyhow::Error> {
+        let index = self.wallet.iter().position(|w| w.name == name);
+
+        if let Some(idx) = index {
+            Ok(self.wallet[idx].clone())
+        } else {
+            bail!("unknown wallet");
+        }
+    }
+
+    pub fn find_chain(&self, chain_id: String) -> Result<Chain, anyhow::Error> {
+        let index = self.chain.iter().position(|c| c.chain_id == chain_id);
+
+        if let Some(idx) = index {
+            Ok(self.chain[idx].clone())
+        } else {
+            bail!("unknown chain_id");
         }
     }
 }
