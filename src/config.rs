@@ -31,6 +31,7 @@ pub struct Config {
     pub taurus: Taurus,
     pub chain: Vec<Chain>,
     pub wallet: Vec<Wallet>,
+    pub slack_web_hook: Option<String>,
 }
 
 impl Config {
@@ -71,6 +72,7 @@ impl Config {
                 name: "toto".to_string(),
                 address: "toto".to_string(),
             }],
+            slack_web_hook: None,
         })
     }
 
