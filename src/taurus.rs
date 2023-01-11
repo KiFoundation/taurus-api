@@ -161,7 +161,7 @@ pub struct Trails {
     pub user_id: String,
     pub external_user_id: String,
     pub action: String,
-    pub date: String,
+    pub date: Option<String>,
     pub request_status: String,
 }
 
