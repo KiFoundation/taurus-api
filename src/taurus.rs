@@ -167,6 +167,23 @@ pub struct Trails {
 
 #[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
 #[serde(rename_all = "camelCase")]
+pub struct Payload {
+    pub column: String,
+    pub key: String,
+    #[serde(rename(deserialize = "type"))]
+    pub payload_type: String,
+    pub value: serde_json::Value,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct Metadata {
+    pub hash: String,
+    pub payload: Vec<Payload>,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct RequestInfos {
     pub id: String,
     pub tenant_id: String,
@@ -177,6 +194,7 @@ pub struct RequestInfos {
     pub type_request: String,
     pub signed_requests: Option<Vec<SignedRequests>>,
     pub trails: Vec<Trails>,
+    pub metadata: Option<Metadata>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
