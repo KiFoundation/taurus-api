@@ -1,6 +1,6 @@
 [package]
 name = "taurus-api"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Sylvestre Gallon <sylvestre@klub.ki>"]
 repository = "https://github.com/SylvestreG/taurus-api/"
 description = "Taurus helper for Cosmos-SDK"
