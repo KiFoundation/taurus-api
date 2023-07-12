@@ -147,6 +147,44 @@ pub struct RequestParams {
 
 #[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
 #[serde(rename_all = "camelCase")]
+pub struct ValueParams {
+    pub primitive: String,
+}
+
+#[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct EthArgsParams {
+    pub name: String,
+    #[serde(rename(deserialize = "type"))]
+    pub attribute_type: String,
+    pub value: ValueParams,
+}
+
+#[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct EthParams {
+    function_signature: String,
+    args: Vec<EthArgsParams>,
+}
+
+#[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct CallParams {
+    pub blockchain: String,
+    pub eth: EthParams,
+}
+
+#[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct ApproveParams {
+    pub from_address_id: String,
+    pub to_whitelisted_address_id: String,
+    pub contract_type: String,
+    pub call: CallParams,
+}
+
+#[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct WhitelistParams {
     pub blockchain: Option<String>,
     pub label: String,
@@ -353,6 +391,13 @@ impl Taurus {
         params: WhitelistParams,
     ) -> Result<WhitelistResponse, anyhow::Error> {
         self.post("/api/rest/v1/whitelists/addresses", &params)
+    }
+
+    pub fn ethereum_approve(
+        &self,
+        params: ApproveParams,
+    ) -> Result<WhitelistResponse, anyhow::Error> {
+        self.post("/api/rest/v1/requests/outgoing/contracts/call", &params)
     }
 
     pub fn request_by_id(&self, id: u64) -> Result<RequestResponse, anyhow::Error> {
