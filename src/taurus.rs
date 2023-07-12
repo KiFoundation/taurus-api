@@ -145,6 +145,16 @@ pub struct RequestParams {
     pub messages: Vec<crate::payload::Message>,
 }
 
+#[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct WhitelistParams {
+    pub blockchain: Option<String>,
+    pub label: String,
+    pub address: String,
+    pub address_type: String,
+    pub contract_type: Option<String>,
+}
+
 #[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignedRequests {
@@ -317,6 +327,20 @@ impl Taurus {
             "/api/rest/v1/requests/outgoing/cosmos/generic_request",
             &params,
         )
+    }
+
+    pub fn add_contract_whitelist(
+        &self,
+        params: WhitelistParams,
+    ) -> Result<RequestResponse, anyhow::Error> {
+        self.post("/api/rest/v1/whitelists/addresses", &params)
+    }
+
+    pub fn add_addr_whitelist(
+        &self,
+        params: WhitelistParams,
+    ) -> Result<RequestResponse, anyhow::Error> {
+        self.post("/api/rest/v1/whitelists/addresses", &params)
     }
 
     pub fn request_by_id(&self, id: u64) -> Result<RequestResponse, anyhow::Error> {
