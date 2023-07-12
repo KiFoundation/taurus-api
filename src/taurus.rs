@@ -163,8 +163,8 @@ pub struct EthArgsParams {
 #[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct EthParams {
-    function_signature: String,
-    args: Vec<EthArgsParams>,
+    pub function_signature: String,
+    pub args: Vec<EthArgsParams>,
 }
 
 #[derive(Serialize, Clone, Debug, Eq, PartialEq, Default)]
@@ -396,7 +396,7 @@ impl Taurus {
     pub fn ethereum_approve(
         &self,
         params: ApproveParams,
-    ) -> Result<WhitelistResponse, anyhow::Error> {
+    ) -> Result<RequestResponse, anyhow::Error> {
         self.post("/api/rest/v1/requests/outgoing/contracts/call", &params)
     }
 
