@@ -213,6 +213,18 @@ pub struct RequestResponse {
     pub result: RequestInfos,
 }
 
+#[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct WhitelistInfos {
+    pub id: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, Eq, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct WhitelistResponse {
+    pub result: WhitelistInfos,
+}
+
 pub struct Taurus {
     address: String,
     client: Client,
@@ -332,14 +344,14 @@ impl Taurus {
     pub fn add_contract_whitelist(
         &self,
         params: WhitelistParams,
-    ) -> Result<RequestResponse, anyhow::Error> {
+    ) -> Result<WhitelistResponse, anyhow::Error> {
         self.post("/api/rest/v1/whitelists/addresses", &params)
     }
 
     pub fn add_addr_whitelist(
         &self,
         params: WhitelistParams,
-    ) -> Result<RequestResponse, anyhow::Error> {
+    ) -> Result<WhitelistResponse, anyhow::Error> {
         self.post("/api/rest/v1/whitelists/addresses", &params)
     }
 
