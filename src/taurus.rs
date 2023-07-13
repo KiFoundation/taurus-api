@@ -155,7 +155,7 @@ pub struct ValueParams {
 #[serde(rename_all = "camelCase")]
 pub struct EthArgsParams {
     pub name: String,
-    #[serde(rename(deserialize = "type"))]
+    #[serde(rename(serialize = "type"))]
     pub attribute_type: String,
     pub value: ValueParams,
 }
