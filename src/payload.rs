@@ -12,7 +12,6 @@ pub const KIND_ARRAY: &str = "Array";
 pub const KIND_MESSAGE: &str = "Message";
 pub const KIND_BYTES: &str = "Bytes";
 pub const KIND_INT: &str = "Int";
-pub const KIND_COIN: &str = "Coin";
 
 #[derive(Serialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -51,9 +50,7 @@ pub struct IntObject {
     pub int: String,
 }
 
-#[derive(Serialize, Clone, Debug, Eq, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct CoinObject {
+pub struct Coin {
     pub denom: String,
     pub amount: String,
 }
@@ -66,7 +63,6 @@ pub enum Objects {
     Message(MessageObject),
     Bytes(BytesObject),
     Int(IntObject),
-    Coin(CoinObject),
 }
 
 #[derive(Serialize, Clone, Debug, Eq, PartialEq)]
@@ -258,7 +254,7 @@ impl Message {
         sender: String,
         contract: String,
         msg: String,
-        funds: Vec<CoinObject>,
+        funds: Vec<Coin>,
     ) -> Message {
         Message {
             url: "/cosmwasm.wasm.v1.MsgExecuteContract".to_string(),
@@ -285,16 +281,31 @@ impl Message {
                     kind: KIND_ARRAY.to_string(),
                     name: "funds".to_string(),
                     field_id: 5,
-                    // funds is an array of Coin objects
                     value: Box::new(Objects::Array(ArrayObject {
                         array: ArrayDetail {
-                            kind: KIND_ARRAY.to_string(),
+                            kind: KIND_MESSAGE.to_string(),
                             elems: funds
-                                .into_iter()
+                                .iter()
                                 .map(|coin| {
-                                    Objects::Coin(CoinObject {
-                                        denom: coin.denom,
-                                        amount: coin.amount,
+                                    Objects::Message(MessageObject {
+                                        message: vec![
+                                            MesssageDetails {
+                                                kind: KIND_STRING.to_string(),
+                                                name: "denom".to_string(),
+                                                field_id: 1,
+                                                value: Box::new(Objects::String(StringObject {
+                                                    string: coin.denom.clone(),
+                                                })),
+                                            },
+                                            MesssageDetails {
+                                                kind: KIND_STRING.to_string(),
+                                                name: "amount".to_string(),
+                                                field_id: 2,
+                                                value: Box::new(Objects::String(StringObject {
+                                                    string: coin.amount.clone(),
+                                                })),
+                                            },
+                                        ],
                                     })
                                 })
                                 .collect(),
