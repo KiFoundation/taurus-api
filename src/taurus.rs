@@ -320,7 +320,10 @@ impl Taurus {
         Ok(output.unwrap())
     }
 
-    fn post<T: serde::de::DeserializeOwned + Clone, U: serde::ser::Serialize + Clone>(
+    fn post<
+        T: serde::de::DeserializeOwned + Clone + std::fmt::Debug,
+        U: serde::ser::Serialize + Clone,
+    >(
         &self,
         endpoint: &str,
         data: &U,
@@ -338,7 +341,6 @@ impl Taurus {
         }
 
         let request = request_builder.send()?;
-
         let data = &request.text()?;
         log::trace!("-> payload\n{}", data);
 
