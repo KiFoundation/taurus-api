@@ -257,29 +257,29 @@ impl Message {
         funds: Vec<Coin>,
     ) -> Message {
         // if funds is empty, then it will be ignored
-            let mut message = Message {
-                url: "/cosmwasm.wasm.v1.MsgExecuteContract".to_string(),
-                message: vec![
-                    MesssageDetails {
-                        kind: KIND_STRING.to_string(),
-                        name: "sender".to_string(),
-                        field_id: 1,
-                        value: Box::new(Objects::String(StringObject { string: sender })),
-                    },
-                    MesssageDetails {
-                        kind: KIND_STRING.to_string(),
-                        name: "contract".to_string(),
-                        field_id: 2,
-                        value: Box::new(Objects::String(StringObject { string: contract })),
-                    },
-                    MesssageDetails {
-                        kind: KIND_BYTES.to_string(),
-                        name: "msg".to_string(),
-                        field_id: 3,
-                        value: Box::new(Objects::Bytes(BytesObject { bytes: msg })),
-                    },
-                ],
-            };
+        let mut message = Message {
+            url: "/cosmwasm.wasm.v1.MsgExecuteContract".to_string(),
+            message: vec![
+                MesssageDetails {
+                    kind: KIND_STRING.to_string(),
+                    name: "sender".to_string(),
+                    field_id: 1,
+                    value: Box::new(Objects::String(StringObject { string: sender })),
+                },
+                MesssageDetails {
+                    kind: KIND_STRING.to_string(),
+                    name: "contract".to_string(),
+                    field_id: 2,
+                    value: Box::new(Objects::String(StringObject { string: contract })),
+                },
+                MesssageDetails {
+                    kind: KIND_BYTES.to_string(),
+                    name: "msg".to_string(),
+                    field_id: 3,
+                    value: Box::new(Objects::Bytes(BytesObject { bytes: msg })),
+                },
+            ],
+        };
 
         if !funds.is_empty() {
             // append funds
