@@ -256,7 +256,8 @@ impl Message {
         msg: String,
         funds: Vec<Coin>,
     ) -> Message {
-        Message {
+        // if funds is empty, then it will be ignored
+        let mut message = Message {
             url: "/cosmwasm.wasm.v1.MsgExecuteContract".to_string(),
             message: vec![
                 MesssageDetails {
@@ -277,43 +278,51 @@ impl Message {
                     field_id: 3,
                     value: Box::new(Objects::Bytes(BytesObject { bytes: msg })),
                 },
-                MesssageDetails {
-                    kind: KIND_ARRAY.to_string(),
-                    name: "funds".to_string(),
-                    field_id: 5,
-                    value: Box::new(Objects::Array(ArrayObject {
-                        array: ArrayDetail {
-                            kind: KIND_MESSAGE.to_string(),
-                            elems: funds
-                                .iter()
-                                .map(|coin| {
-                                    Objects::Message(MessageObject {
-                                        message: vec![
-                                            MesssageDetails {
-                                                kind: KIND_STRING.to_string(),
-                                                name: "denom".to_string(),
-                                                field_id: 1,
-                                                value: Box::new(Objects::String(StringObject {
-                                                    string: coin.denom.clone(),
-                                                })),
-                                            },
-                                            MesssageDetails {
-                                                kind: KIND_STRING.to_string(),
-                                                name: "amount".to_string(),
-                                                field_id: 2,
-                                                value: Box::new(Objects::String(StringObject {
-                                                    string: coin.amount.clone(),
-                                                })),
-                                            },
-                                        ],
-                                    })
-                                })
-                                .collect(),
-                        },
-                    })),
-                },
             ],
+        };
+
+        if !funds.is_empty() {
+            // append funds
+            let funds = MesssageDetails {
+                kind: KIND_ARRAY.to_string(),
+                name: "funds".to_string(),
+                field_id: 5,
+                value: Box::new(Objects::Array(ArrayObject {
+                    array: ArrayDetail {
+                        kind: KIND_MESSAGE.to_string(),
+                        elems: funds
+                            .iter()
+                            .map(|coin| {
+                                Objects::Message(MessageObject {
+                                    message: vec![
+                                        MesssageDetails {
+                                            kind: KIND_STRING.to_string(),
+                                            name: "denom".to_string(),
+                                            field_id: 1,
+                                            value: Box::new(Objects::String(StringObject {
+                                                string: coin.denom.clone(),
+                                            })),
+                                        },
+                                        MesssageDetails {
+                                            kind: KIND_STRING.to_string(),
+                                            name: "amount".to_string(),
+                                            field_id: 2,
+                                            value: Box::new(Objects::String(StringObject {
+                                                string: coin.amount.clone(),
+                                            })),
+                                        },
+                                    ],
+                                })
+                            })
+                            .collect(),
+                    },
+                })),
+            };
+
+            message.message.push(funds);
         }
+
+        message
     }
 
     pub fn build_contract_instantiate(
